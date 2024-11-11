@@ -14,7 +14,7 @@
             <div class="title-bar">
                 <div class="title">
                     <div class="title-first">Space</div>
-                    <div class="title-second">Theme</div>
+                    <div class="title-second">Theme <span id="version-number"></span></div>
                 </div>
                 <div class="window-controls">
                     <div class="closeButt" id="closeButton">
@@ -87,7 +87,7 @@ SOFTWARE.</div>
             </div>
         </div>
     </div>
-
+    <script src="version.js"></script>
     <script>
         const { shell } = require('electron');
         const { ipcRenderer } = require('electron');
