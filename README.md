@@ -1,2 +1,2 @@
 # Installer
-CLI installation tool that automates the installation, removal and maintenance of themes.
+GUI/PS installation tool that automates the installation, removal and maintenance of themes.
