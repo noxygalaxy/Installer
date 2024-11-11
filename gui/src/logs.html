@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceTheme Installer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+<body>
+    <div class="window">
+        <div class="everything">
+            <div class="title-bar">
+                <div class="title">
+                    <div class="title-first">Space</div>
+                    <div class="title-second">Theme</div>
+                </div>
+                <div class="window-controls">
+                    <div class="closeButt" id="closeButton">
+                        <img class="close-icon" src="assets/close-icon.svg">
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="outer-container">
+                    <div class="installation-header">
+                        <div class="installation-title">
+                            <div class="installation-icon-bg">
+                                <img class="installation-icon" src="assets/installation-icon.svg"></img>
+                            </div>
+                            <span>Installation</span>
+                        </div>
+                    </div>
+                    <div class="logs-content"></div>
+                </div>
+
+                <div class="footer">
+                    <div class="social-links">
+                        <div class="social-link">
+                            <img class="social-link-icon" id="website-button" src="assets/website.svg">
+                        </div>
+                        <div class="social-link">
+                            <img class="social-link-icon" id="discord-button" src="assets/discord.svg">
+                        </div>
+                        <div class="social-link">
+                            <img class="social-link-icon" id="github-button" src="assets/github.svg">
+                        </div>
+                        <div class="social-link">
+                            <img class="social-link-icon" id="donate-button" src="assets/donate.svg">
+                        </div>
+                    </div>
+                    <div class="nav-buttons">
+                        <div class="nav-button back disabed">
+                            <img class="arrow-left" src="assets/arrow-left.svg">
+                        </div>
+                        <div class="nav-button next" id="nextButton" disabled>
+                            <img class="arrow-right" src="assets/installdone-disabled.svg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const electron = require('electron');
+        const { shell } = require('electron');
+        const { ipcRenderer } = electron;
+    
+        AOS.init();
+    
+        const nextButton = document.querySelector('.nav-button.next');
+
+        nextButton.disabled = true;
+        nextButton.classList.add('disabled');
+
+        document.getElementById('closeButton').addEventListener('click', () => {
+            const windowElement = document.querySelector('.window');
+            
+            ipcRenderer.send('close-window');
+        });
+
+        ipcRenderer.on('window-restored', () => {
+            const windowElement = document.querySelector('.window');
+            windowElement.style.transform = 'scale(1)';
+            windowElement.style.opacity = '1';
+        });
+    
+        document.getElementById('website-button').addEventListener('click', () => {
+            shell.openExternal('https://spacetheme.de/');
+        });
+    
+        document.getElementById('discord-button').addEventListener('click', () => {
+            shell.openExternal('https://discord.spacetheme.de/');
+        });
+    
+        document.getElementById('github-button').addEventListener('click', () => {
+            shell.openExternal('https://github.com/spacetheme');
+        });
+    
+        document.getElementById('donate-button').addEventListener('click', () => {
+            shell.openExternal('https://ko-fi.com/spacetheme');
+        });
+    </script>
+    <script>
+        const backButton = document.querySelector('.nav-button.back');
+
+        function appendLog(message) {
+            const logsContent = document.querySelector('.logs-content');
+            if (!logsContent) {
+                console.error('Logs content div not found');
+                return;
+            }
+
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logsContent.appendChild(logEntry);
+
+            logsContent.scrollTop = logsContent.scrollHeight;
+
+            if (message.includes('SpaceTheme installed successfully') || message.includes('SpaceTheme uninstalled successfully')) {
+                nextButton.disabled = false;
+                nextButton.classList.remove('disabled');
+                arrowRightImg.src = 'assets/installdone.svg';
+            }
+        }
+
+        ipcRenderer.on('installation-logs', (event, messages) => {
+            if (Array.isArray(messages)) {
+                messages.forEach(message => appendLog(message));
+            } else {
+                appendLog(messages);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            const windowElement = document.querySelector('.window');
+            
+            ipcRenderer.send('close-window');
+        });
+
+        function clearLogs() {
+            const logsContent = document.querySelector('.logs-content');
+            if (logsContent) {
+                logsContent.innerHTML = '';
+            }
+        }
+
+        backButton.addEventListener('click', () => {
+            const everythingObject = document.querySelector('.everything');
+            
+            window.location.href = 'select-theme.html';
+        });
+    </script>
+</body>
+</html>
