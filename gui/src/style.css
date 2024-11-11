@@ -86,6 +86,18 @@ body {
     font-weight: 900;
 }
 
+#version-number {
+    color: rgb(110, 110, 110);
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 7px;
+    letter-spacing: 0px;
+    text-align: left;
+    position: relative;
+    top: -4px;
+}
+
 .window-controls {
     -webkit-app-region: no-drag;
     display: flex;
@@ -197,6 +209,8 @@ body {
 }
 
 .license-content {
+    font-family: Be Vietnam Pro;
+    font-weight: 400;
     height: 100%;
     background: rgb(30, 30, 30);
     border-radius: 8px;
@@ -208,7 +222,6 @@ body {
     line-height: 1.6;
     white-space: pre-wrap;
     max-height: 300px;
-    font-weight: 300;
 }
 
 
