@@ -169,6 +169,22 @@ body {
     height: 15px;
 }
 
+.license-content {
+    font-weight: 400;
+    height: 100%;
+    background: rgb(30, 30, 30);
+    border-radius: 8px;
+    padding: 16px;
+    flex: 1;
+    overflow-y: auto;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    max-height: 300px;
+}
+
+
 .checkbox-wrapper {
     display: flex;
     align-items: center;
@@ -205,22 +221,6 @@ body {
 .custom-checkbox:hover {
     box-sizing: border-box;
     border: 2px solid rgb(102, 108, 255);
-}
-
-.license-content {
-    font-family: Be Vietnam Pro;
-    font-weight: 400;
-    height: 100%;
-    background: rgb(30, 30, 30);
-    border-radius: 8px;
-    padding: 16px;
-    flex: 1;
-    overflow-y: auto;
-    color: #fff;
-    font-size: 12px;
-    line-height: 1.6;
-    white-space: pre-wrap;
-    max-height: 300px;
 }
 
 
@@ -375,7 +375,7 @@ body {
     color: #fff;
     font-size: 12px;
     white-space: pre-wrap;
-    max-height: 275px;
+    max-height: 300px;
     font-weight: 300;
 }
 
