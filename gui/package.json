@@ -17,7 +17,7 @@
   "build": {
     "appId": "com.noxy.st-installer",
     "productName": "SpaceTheme-Installer",
-    "copyright": "Copyright © 2024 SpaceEnergy",
+    "copyright": "Copyright © 2024 SpaceTheme",
     "win": {
       "target": [
         "nsis",
