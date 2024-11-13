@@ -4,6 +4,43 @@ const fs = require('fs');
 const https = require('https');
 const AdmZip = require('adm-zip');
 
+async function findSteamPath() {
+  const drives = [];
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  
+  for (let i = 0; i < letters.length; i++) {
+    const drivePath = `${letters[i]}:\\`;
+    try {
+      if (fs.existsSync(drivePath)) {
+        drives.push(drivePath);
+      }
+    } catch (error) {
+      continue;
+    }
+  }
+
+  const commonPaths = [
+    'Program Files (x86)\\Steam\\steam.exe',
+    'Program Files\\Steam\\steam.exe',
+    'Steam\\steam.exe'
+  ];
+
+  for (const drive of drives) {
+    for (const commonPath of commonPaths) {
+      const fullPath = path.join(drive, commonPath);
+      try {
+        if (fs.existsSync(fullPath)) {
+          return path.dirname(fullPath);
+        }
+      } catch (error) {
+        continue;
+      }
+    }
+  }
+  
+  return null;
+}
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 750,
@@ -125,8 +162,18 @@ ipcMain.on('start-installation', async (event, data) => {
   } else if (data.theme === 'SteamTheme') {
     await delay(1000);
     
-    const skinsFolder = 'C:\\Program Files (x86)\\Steam\\steamui\\skins';
-    const destinationFolder = path.join(skinsFolder, 'SpaceTheme for Steam');
+    sendLog('Trying to find Steam folder...');
+    const steamPath = await findSteamPath();
+    
+    if (!steamPath) {
+      sendLog('Steam installation not found on any drive. Please install Steam first.');
+      return;
+    }
+    
+    sendLog('Steam folder found!');
+    
+    const skinsFolder = path.join(steamPath, 'steamui', 'skins');
+    const destinationFolder = path.join(skinsFolder, 'SpaceTheme For Steam');
     const tempPath = path.join(process.env.TEMP, 'SpaceTheme_for_Steam.zip');
     const extractedFolderPath = path.join(skinsFolder, 'Steam-main');
 
@@ -169,7 +216,7 @@ ipcMain.on('start-installation', async (event, data) => {
       }
 
       if (!fs.existsSync(skinsFolder)) {
-        sendLog('Steam skins folder not found. Please install Steam first.');
+        sendLog('Steam skins folder not found. Please install Millennium/Steam first.');
         return;
       }
 
