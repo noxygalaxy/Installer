@@ -33,6 +33,10 @@
                             <div class="dropdown-item" id="steam-theme">SteamTheme</div>
                         </div>
                     </div>
+                    <div class="steam-path-selector" style="display: none;">
+                        <input id="steam-path-display" placeholder="" disabled></input>
+                        <button class="select-steam-path-button">Select Steam Path</button>
+                    </div>                    
 
                     <div class="popup" id="popup">You didn't select the theme.</div>
 
@@ -127,6 +131,10 @@
         const installText = document.querySelector('#install-theme .theme-text');
         const resetText = document.querySelector('#reset-theme .theme-text');
         const uninstallText = document.querySelector('#uninstall-theme .theme-text');
+        const steamPathSelector = document.querySelector('.steam-path-selector');
+        const selectSteamPathButton = document.querySelector('.select-steam-path-button');
+        const steamPathDisplay = document.getElementById('steam-path-display');
+        let selectedSteamPath = null;
 
         themeSelector.addEventListener('click', (e) => {
             if (e.target.closest('.dropdown-item')) {
@@ -146,9 +154,30 @@
                 resetText.textContent = `Reset ${selectedTheme}`;
                 uninstallText.textContent = `Uninstall ${selectedTheme}`;
                 
+                steamPathSelector.style.display = selectedTheme === 'SteamTheme' ? 'flex' : 'none';
+                
                 dropdownMenu.classList.remove('active');
                 themeSelector.classList.remove('active');
             });
+        });
+
+        selectSteamPathButton.addEventListener('click', async () => {
+            try {
+                const result = await ipcRenderer.invoke('select-steam-path');
+                if (result.success) {
+                    selectedSteamPath = result.path;
+                    steamPathDisplay.placeholder = `${result.path}`;
+                    if (selectedOption) {
+                        nextButton.classList.add('available');
+                    }
+                } else {
+                    steamPathDisplay.placeholder = 'Error selecting Steam path';
+                }
+            } catch (error) {
+                steamPathDisplay.placeholder = 'Error selecting Steam path';
+                selectedSteamPath = null;
+                nextButton.classList.remove('available');
+            }
         });
 
         const themeOptions = document.querySelectorAll('.theme-option');
@@ -176,7 +205,12 @@
                 option.classList.add('active');
                 selectedOption = option.id;
                 selectedTheme = currentTheme;
-                nextButton.classList.add('available');
+
+                if (currentTheme === 'SteamTheme' && selectedSteamPath) {
+                    nextButton.classList.add('available');
+                } else if (currentTheme !== 'SteamTheme') {
+                    nextButton.classList.add('available');
+                }
             });
         });
 
@@ -187,7 +221,8 @@
             
             ipcRenderer.send('start-installation', {
                 option: selectedOption,
-                theme: selectedTheme
+                theme: selectedTheme,
+                steamPath: selectedSteamPath
             });
             window.location.href = 'logs.html';
         });

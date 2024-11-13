@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
@@ -25,6 +25,24 @@ function createWindow() {
 }
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+ipcMain.handle('select-steam-path', async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ['openDirectory'],
+    title: 'Select Steam Installation Directory'
+  });
+
+  if (!result.canceled) {
+    const selectedPath = result.filePaths[0];
+    const steamExePath = path.join(selectedPath, 'steam.exe');
+    if (fs.existsSync(steamExePath)) {
+      return { success: true, path: selectedPath };
+    } else {
+      return { success: false, error: 'Invalid Steam directory. Please select the valid Steam directory.' };
+    }
+  }
+  return { success: false, error: 'Selection cancelled' };
+});
 
 ipcMain.on('start-installation', async (event, data) => {
   const appData = process.env.APPDATA;
@@ -125,8 +143,8 @@ ipcMain.on('start-installation', async (event, data) => {
   } else if (data.theme === 'SteamTheme') {
     await delay(1000);
     
-    const skinsFolder = 'C:\\Program Files (x86)\\Steam\\steamui\\skins';
-    const destinationFolder = path.join(skinsFolder, 'SpaceTheme for Steam');
+    const skinsFolder = path.join(data.steamPath, 'steamui', 'skins');
+    const destinationFolder = path.join(skinsFolder, 'SpaceTheme For Steam');
     const tempPath = path.join(process.env.TEMP, 'SpaceTheme_for_Steam.zip');
     const extractedFolderPath = path.join(skinsFolder, 'Steam-main');
 
@@ -169,7 +187,7 @@ ipcMain.on('start-installation', async (event, data) => {
       }
 
       if (!fs.existsSync(skinsFolder)) {
-        sendLog('Steam skins folder not found. Please install Steam first.');
+        sendLog('Steam skins folder not found. Please install Millennium/Steam first.');
         return;
       }
 
