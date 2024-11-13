@@ -496,3 +496,37 @@ body {
     cursor: pointer;
     opacity: 1;
 }
+
+.steam-path-selector {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.select-steam-path-button {
+    padding: 8px 16px;
+    background: #4a4a4a;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.select-steam-path-button:hover {
+    background: #5a5a5a;
+}
+
+.steam-path-display {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: #ccc;
+    word-break: break-all;
+}
+
+.steam-path-error {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: #ff4444;
+}
