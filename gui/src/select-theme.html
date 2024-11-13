@@ -34,9 +34,8 @@
                         </div>
                     </div>
                     <div class="steam-path-selector" style="display: none;">
+                        <input id="steam-path-display" placeholder="" disabled></input>
                         <button class="select-steam-path-button">Select Steam Path</button>
-                        <div class="steam-path-display"></div>
-                        <div class="steam-path-error" style="display: none; color: red;"></div>
                     </div>                    
 
                     <div class="popup" id="popup">You didn't select the theme.</div>
@@ -134,8 +133,7 @@
         const uninstallText = document.querySelector('#uninstall-theme .theme-text');
         const steamPathSelector = document.querySelector('.steam-path-selector');
         const selectSteamPathButton = document.querySelector('.select-steam-path-button');
-        const steamPathDisplay = document.querySelector('.steam-path-display');
-        const steamPathError = document.querySelector('.steam-path-error');
+        const steamPathDisplay = document.getElementById('steam-path-display');
         let selectedSteamPath = null;
 
         themeSelector.addEventListener('click', (e) => {
@@ -156,7 +154,7 @@
                 resetText.textContent = `Reset ${selectedTheme}`;
                 uninstallText.textContent = `Uninstall ${selectedTheme}`;
                 
-                steamPathSelector.style.display = selectedTheme === 'SteamTheme' ? 'block' : 'none';
+                steamPathSelector.style.display = selectedTheme === 'SteamTheme' ? 'flex' : 'none';
                 
                 dropdownMenu.classList.remove('active');
                 themeSelector.classList.remove('active');
@@ -168,20 +166,15 @@
                 const result = await ipcRenderer.invoke('select-steam-path');
                 if (result.success) {
                     selectedSteamPath = result.path;
-                    steamPathDisplay.textContent = `Selected path: ${result.path}`;
-                    steamPathError.style.display = 'none';
+                    steamPathDisplay.placeholder = `${result.path}`;
                     if (selectedOption) {
                         nextButton.classList.add('available');
                     }
                 } else {
-                    steamPathError.textContent = result.error;
-                    steamPathError.style.display = 'block';
-                    selectedSteamPath = null;
-                    nextButton.classList.remove('available');
+                    steamPathDisplay.placeholder = 'Error selecting Steam path';
                 }
             } catch (error) {
-                steamPathError.textContent = 'Error selecting Steam path';
-                steamPathError.style.display = 'block';
+                steamPathDisplay.placeholder = 'Error selecting Steam path';
                 selectedSteamPath = null;
                 nextButton.classList.remove('available');
             }
