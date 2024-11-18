@@ -43,6 +43,12 @@
                     <div class="theme-options">
                         <div class="theme-option" id="install-theme">
                             <div class="theme-text">Please select a theme to install</div>
+                            <div class="install-with" id="install-with">
+                                <label class="checkbox-wrapper">
+                                    <input type="checkbox" class="custom-checkbox" id="millennium-install">
+                                    <p>with Millennium</p>
+                                </label>
+                            </div>
                         </div>
                         
                         <div class="theme-option" id="reset-theme">
@@ -134,6 +140,10 @@
         const steamPathSelector = document.querySelector('.steam-path-selector');
         const selectSteamPathButton = document.querySelector('.select-steam-path-button');
         const steamPathDisplay = document.getElementById('steam-path-display');
+        const millenniumInstallWrapper = document.getElementById('install-with');
+        const millenniumInstallCheckbox = document.getElementById('millennium-install');
+        millenniumInstallWrapper.style.display = 'none';
+        
         let selectedSteamPath = null;
 
         themeSelector.addEventListener('click', (e) => {
@@ -146,7 +156,7 @@
 
         const dropdownItems = document.querySelectorAll('.dropdown-item');
         dropdownItems.forEach(item => {
-            item.addEventListener('click', () => {
+            item.addEventListener('click', async () => {
                 const selectedTheme = item.textContent;
                 document.querySelector('.theme-selector-text').textContent = selectedTheme;
                 
@@ -155,6 +165,21 @@
                 uninstallText.textContent = `Uninstall ${selectedTheme}`;
                 
                 steamPathSelector.style.display = selectedTheme === 'SteamTheme' ? 'flex' : 'none';
+                millenniumInstallWrapper.style.display = selectedTheme === 'SteamTheme' ? 'flex' : 'none';
+                if (selectedTheme === 'SteamTheme') {
+                    const result = await ipcRenderer.invoke('get-steam-path');
+                    if (result.success) {
+                        selectedSteamPath = result.path;
+                        if (selectedOption) {
+                            nextButton.classList.add('available');
+                        }
+                    } else {
+                        selectedSteamPath = null;
+                        nextButton.classList.remove('available');
+                    }
+                }
+                millenniumInstallWrapper.classList.toggle('fade-down', selectedTheme === 'SteamTheme');
+                millenniumInstallCheckbox.checked = false;
                 
                 dropdownMenu.classList.remove('active');
                 themeSelector.classList.remove('active');
@@ -222,7 +247,8 @@
             ipcRenderer.send('start-installation', {
                 option: selectedOption,
                 theme: selectedTheme,
-                steamPath: selectedSteamPath
+                steamPath: selectedSteamPath,
+                millenniumInstall: millenniumInstallCheckbox.checked
             });
             window.location.href = 'logs.html';
         });
