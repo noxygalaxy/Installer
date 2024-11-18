@@ -315,7 +315,7 @@ body {
     flex-direction: column;
     padding: 0;
     border-radius: 8px;
-    background-color: rgb(25, 25, 25);
+    background-color: rgb(35, 35, 35);
 }
 
 .theme-text {
@@ -342,10 +342,6 @@ body {
 .install-with {
     display: flex;
     padding: 0 12px 12px;
-}
-
-.install-with .checkbox-wrapper {
-    width: 100%;
 }
 
 .install-with .checkbox-wrapper p {
