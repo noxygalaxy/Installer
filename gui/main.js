@@ -152,7 +152,7 @@ ipcMain.on('start-installation', async (event, data) => {
     
     if (data.millenniumInstall) {
       sendLog('Starting Millennium installation...');
-      const powershellCommand = `start powershell.exe -ExecutionPolicy Bypass -File "${path.join(__dirname, 'src/assets/millennium.ps1')}"`;
+      const powershellCommand = `start powershell.exe -ExecutionPolicy Bypass -File "${path.join(__dirname, 'src/scripts/install.ps1')}"`;
       
       try {
         await new Promise((resolve, reject) => {
