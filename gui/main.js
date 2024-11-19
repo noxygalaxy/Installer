@@ -173,7 +173,7 @@ ipcMain.on('start-installation', async (event, data) => {
     }
 
     const skinsFolder = path.join(data.steamPath, 'steamui', 'skins');
-    const destinationFolder = path.join(skinsFolder, 'SpaceTheme For Steam');
+    const destinationFolder = path.join(skinsFolder, 'SpaceTheme for Steam');
     const tempPath = path.join(process.env.TEMP, 'SpaceTheme_for_Steam.zip');
     const extractedFolderPath = path.join(skinsFolder, 'Steam-main');
 
