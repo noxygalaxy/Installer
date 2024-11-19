@@ -51,13 +51,41 @@ ipcMain.handle('get-steam-path', async () => {
   });
 });
 
+const logDir = path.join(process.env.LOCALAPPDATA, 'SpaceTheme Installer');
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir, { recursive: true });
+}
+
+function createLogFileName() {
+  const now = new Date();
+  const formattedDate = `${now.getFullYear()}_${String(now.getMonth() + 1).padStart(2, '0')}_${String(now.getDate()).padStart(2, '0')}`;
+  const formattedTime = `${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+  return `${formattedDate}-${formattedTime}.log`;
+}
+
+const latestLogPath = path.join(logDir, 'latest.log');
+if (fs.existsSync(latestLogPath)) {
+  const newLogFileName = createLogFileName();
+  fs.renameSync(latestLogPath, path.join(logDir, newLogFileName));
+}
+
 ipcMain.on('start-installation', async (event, data) => {
   const appData = process.env.APPDATA;
   
   function sendLog(message) {
+    const timestamp = new Date().toISOString();
+    const logMessage = `[${timestamp}] ${message}\n`;
+    
     console.log('Debug:', message);
+    
+    try {
+      fs.appendFileSync(latestLogPath, logMessage);
+    } catch (error) {
+      console.error('Failed to write to log file:', error);
+    }
+    
     event.reply('installation-logs', [message]);
-  }
+  }  
 
   sendLog('Preparing installation...');
   await delay(1000);
