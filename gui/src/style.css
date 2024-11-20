@@ -1,21 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 * {
+    user-select: none;
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    user-select: none;
 }
 
 body {
-    background-color: rgba(0,0,0,0);
-    font-family: Be Vietnam Pro;
-    height: 100vh;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+    font-family: Be Vietnam Pro;
     color: #fff;
-    overflow: hidden;
+    background-color: rgba(0,0,0,0);
 }
 
 
@@ -41,44 +41,44 @@ body {
 
 
 .window {
-    width: 750px;
-    height: 500px;
-    background-color: rgb(10, 10, 10);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    border: 2px solid rgb(60, 58, 61);
+    width: 750px;
+    height: 500px;
     border-radius: 10px;
-    overflow: hidden;
+    border: 2px solid rgb(60, 58, 61);
+    background-color: rgb(10, 10, 10);
 }
 
 .everything {
     display: flex;
-    flex-direction: column;
     flex: 1;
+    flex-direction: column;
 }
 
 .title-bar {
-    padding: 12px 16px;
+    -webkit-app-region: drag;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(10, 10, 10);
-    -webkit-app-region: drag;
     height: 48px;
+    padding: 12px 16px;
+    background-color: rgb(10, 10, 10);
 }
 
 .title {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
     font-size: 18px;
     line-height: 123%;
     letter-spacing: 0%;
-    text-align: center;
-    flex-direction: row;
-    display: flex;
 }
 
 .title-first {
-    color: rgb(135, 140, 255);
     font-weight: 500;
+    color: rgb(135, 140, 255);
 }
 
 .title-second {
@@ -87,14 +87,14 @@ body {
 }
 
 #version-number {
-    color: rgb(110, 110, 110);
+    position: relative;
+    top: -8px;
+    text-align: left;
     font-size: 10px;
     font-weight: 800;
     line-height: 7px;
     letter-spacing: 0px;
-    text-align: left;
-    position: relative;
-    top: -8px;
+    color: rgb(110, 110, 110);
 }
 
 .window-controls {
@@ -104,12 +104,12 @@ body {
 }
 
 .closeButt {
-    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 16px;
     height: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    cursor: pointer;
 }
 
 .close-icon {
@@ -118,22 +118,22 @@ body {
 }
 
 .main-content {
-    flex: 1;
-    padding: 0 16px 16px;
     display: flex;
-    flex-direction: column;
+    flex: 1;
     gap: 16px;
+    flex-direction: column;
+    padding: 0 16px 16px;
     background-color: rgb(10, 10, 10);
 }
 
 .outer-container {
-    background-color: rgb(17, 17, 17);
-    border-radius: 8px;
-    padding: 16px;
     display: flex;
-    flex-direction: column;
-    gap: 16px;
     flex: 1;
+    gap: 16px;
+    flex-direction: column;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: rgb(17, 17, 17);
 }
 
 
@@ -147,21 +147,21 @@ body {
 
 .license-title {
     display: flex;
-    align-items: center;
     gap: 12px;
+    align-items: center;
     font-size: 16px;
-    color: rgb(255, 255, 255);
     font-weight: 400;
+    color: rgb(255, 255, 255);
 }
 
 .license-icon-bg {
-    width: 25px;
-    height: 25px;
-    border-radius: 4px;
-    background: rgb(30, 30, 30);
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    background-color: rgb(30, 30, 30);
 }
 
 .license-icon {
@@ -170,51 +170,51 @@ body {
 }
 
 .license-content {
-    font-weight: 400;
-    height: 100%;
-    background: rgb(30, 30, 30);
-    border-radius: 8px;
-    padding: 16px;
-    flex: 1;
     overflow-y: auto;
-    color: #fff;
+    flex: 1;
+    height: 100%;
+    max-height: 300px;
+    padding: 16px;
     font-size: 12px;
+    font-weight: 400;
     line-height: 1.6;
     white-space: pre-wrap;
-    max-height: 300px;
+    border-radius: 8px;
+    color: #fff;
+    background-color: rgb(30, 30, 30);
 }
 
 
 .checkbox-wrapper {
     display: flex;
-    align-items: center;
     gap: 8px;
-    color: #fff;
+    align-items: center;
+    text-align: right;
     font-size: 14px;
     font-weight: 400;
     line-height: 123%;
     letter-spacing: 0%;
-    text-align: right;
+    color: #fff;
 }
 
 .custom-checkbox {
+    appearance: none;
+    position: relative;
     width: 25px;
     height: 25px;
+    cursor: pointer;
     border-radius: 4px;
     border: 2px solid rgb(42, 42, 42);
-    appearance: none;
-    background: rgb(30, 30, 30);
-    cursor: pointer;
-    position: relative;
-    background-repeat: no-repeat;
-    background-position: center;
+    background-color: rgb(30, 30, 30);
     background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
     transition: all 0.5s ease;
 }
 
 .custom-checkbox:checked {
-    background-color: rgb(102, 108, 255);
     border-color: rgb(102, 108, 255);
+    background-color: rgb(102, 108, 255);
     background-image: url('assets/checkmark.svg');
 }
 
@@ -226,15 +226,15 @@ body {
 
 
 .theme-selector {
-    background: rgb(30, 30, 30);
-    border-radius: 8px;
-    padding: 12px 16px;
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 12px 16px;
     cursor: pointer;
+    border-radius: 8px;
+    background-color: rgb(30, 30, 30);
     transition: background 0.3s ease;
-    position: relative;
 }
 
 .theme-selector-arrow {
@@ -247,24 +247,24 @@ body {
 }
 
 .dropdown-menu {
-    max-height: 222px;
+    opacity: 0;
+    z-index: 1000;
+    overflow: hidden;
     overflow-y: auto;
     position: absolute;
     top: calc(100% + 6px);
     left: 0;
     right: 0;
     display: flex;
-    flex-direction: column;
     gap: 6px;
+    flex-direction: column;
+    max-height: 222px;
     padding: 6px;
-    background: rgb(30, 30, 30);
+    pointer-events: none;
     border-radius: 8px;
     border: 2px solid rgb(60, 58, 61);
-    overflow: hidden;
-    opacity: 0;
-    pointer-events: none;
+    background-color: rgb(30, 30, 30);
     transition: all 0.3s ease;
-    z-index: 1000;
 }
 .dropdown-menu.active {
     opacity: 1;
@@ -273,22 +273,22 @@ body {
 }
 
 .dropdown-item {
-    font-weight: 400;
-    color: #888;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    background: rgb(17, 17, 17);
     padding: 7.5px 16px;
+    font-weight: 400;
+    cursor: pointer;
     border-radius: 5px;
+    color: #888;
+    background-color: rgb(17, 17, 17);
+    transition: all 0.3s ease;
 }
 .dropdown-item:hover {
     color: #fff;
-    background: rgb(40, 40, 40);
+    background-color: rgb(40, 40, 40);
 }
 
 .theme-selector-text {
-    color: #888;
     font-weight: 400;
+    color: #888;
 }
 
 .theme-selector-arrow {
@@ -297,16 +297,16 @@ body {
 }
 
 .theme-selector:hover {
-    background: rgb(25, 25, 25);
+    background-color: rgb(25, 25, 25);
 }
 
 
 
 .theme-options {
-    flex: 1;
     display: flex;
-    flex-direction: column;
+    flex: 1;
     gap: 12px;
+    flex-direction: column;
 }
 
 .theme-option#install-theme {
@@ -319,23 +319,23 @@ body {
 }
 
 .theme-text {
-    color: #888;
-    font-weight: 400;
-    font-size: 14px;
     align-items: center;
     text-align: center;
-    background: rgb(30, 30, 30);
-    border-radius: 8px;
     padding: 18px;
+    font-size: 14px;
+    font-weight: 400;
     cursor: pointer;
+    border-radius: 8px;
+    color: #888;
+    background-color: rgb(30, 30, 30);
     transition: background 0.3s ease;
 }
 .theme-text:hover {
-    background: rgb(25, 25, 25);
+    background-color: rgb(25, 25, 25);
 }
 .theme-option.active .theme-text {
-    background: rgb(102, 108, 255) !important;
     color: white;
+    background-color: rgb(102, 108, 255) !important;
 }
 
 
@@ -374,21 +374,21 @@ body {
 
 .installation-title {
     display: flex;
-    align-items: center;
     gap: 12px;
+    align-items: center;
     font-size: 16px;
-    color: rgb(255, 255, 255);
     font-weight: 400;
+    color: rgb(255, 255, 255);
 }
 
 .installation-icon-bg {
     width: 25px;
     height: 25px;
-    border-radius: 4px;
-    background: rgb(30, 30, 30);
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 4px;
+    background-color: rgb(30, 30, 30);
 }
 
 .installation-icon {
@@ -397,29 +397,29 @@ body {
 }
 
 .logs-content {
-    background: rgb(30, 30, 30);
-    border-radius: 8px;
-    padding: 16px;
-    flex: 1;
     overflow-y: auto;
-    color: #fff;
-    font-size: 12px;
-    white-space: pre-wrap;
+    flex: 1;
     max-height: 300px;
+    padding: 16px;
+    font-size: 12px;
     font-weight: 300;
+    white-space: pre-wrap;
+    border-radius: 8px;
+    color: #fff;
+    background-color: rgb(30, 30, 30);
 }
 
 
 
 .footer {
-    background: rgb(30, 30, 30);
-    border-radius: 8px;
-    padding: 6px;
-    margin: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0;
     margin-top: auto;
+    padding: 6px;
+    border-radius: 8px;
+    background-color: rgb(30, 30, 30);
 }
 
 .social-links {
@@ -430,14 +430,14 @@ body {
 .social-link {
     width: 30px;
     height: 30px;
-    border: 2px solid rgb(17, 17, 17);
-    border-radius: 4px;
-    background: rgb(17, 17, 17);
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.5s ease;
     cursor: pointer;
+    border-radius: 4px;
+    border: 2px solid rgb(17, 17, 17);
+    background-color: rgb(17, 17, 17);
+    transition: all 0.5s ease;
 }
 
 .social-link:hover img {
@@ -457,10 +457,10 @@ body {
 .nav-button {
     opacity: 1;
     padding: 2px 18px;
+    font-size: 14px;
+    cursor: pointer;
     border-radius: 6px;
     border: none;
-    cursor: pointer;
-    font-size: 14px;
 }
 .nav-button.disabled {
     opacity: 0.5;
@@ -468,19 +468,19 @@ body {
 
 .arrow-left,
 .arrow-right {
-    width: 20px;
-    height: 20px;
-    top: 1px;
     position: relative;
+    top: 1px;
     justify-content: center;
     align-items: center;
+    width: 20px;
+    height: 20px;
 }
 
 
 .next {
     border: 2px solid rgb(102, 108, 255);
-    background-color: rgb(102, 108, 255);
     color: #fff;
+    background-color: rgb(102, 108, 255);
     transition: all 0.5s ease;
 }
 .next.disabled {
@@ -489,8 +489,8 @@ body {
 
 .back {
     border: 2px solid rgb(17, 17, 17);
-    background-color: rgb(17, 17, 17);
     color: #fff;
+    background-color: rgb(17, 17, 17);
     transition: all 0.5s ease;
 }
 .back.disabled {
@@ -500,19 +500,20 @@ body {
 
 
 .popup {
+    z-index: 1001;
     position: fixed;
-    top: 20px;
+    bottom: 90px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(255, 0, 0, 0.8);
+    display: none;
     padding: 10px 20px;
     border-radius: 8px;
-    display: none;
-    z-index: 1001;
+    border: 2px solid rgb(239, 75, 75);
     color: white;
+    background-color: rgb(239, 75, 75, 17%);
 }
 
 .nav-button.next.available {
-    cursor: pointer;
     opacity: 1;
+    cursor: pointer;
 }
