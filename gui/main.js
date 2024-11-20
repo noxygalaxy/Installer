@@ -259,7 +259,60 @@ ipcMain.on('start-installation', async (event, data) => {
 
       if (fs.existsSync(extractedFolderPath)) {
         fs.renameSync(extractedFolderPath, destinationFolder);
-        sendLog('SpaceTheme installed successfully for Steam.');
+        
+        const themesJsonPath = path.join(data.steamPath, 'ext', 'themes.json');
+        try {
+          if (fs.existsSync(themesJsonPath)) {
+            let themesData = JSON.parse(fs.readFileSync(themesJsonPath, 'utf8'));
+            
+            if (Array.isArray(themesData)) {
+              const activeThemeIndex = themesData.findIndex(theme => theme.active);
+              if (activeThemeIndex !== -1) {
+                themesData[activeThemeIndex].active = "SpaceTheme for Steam";
+              }
+            } else if (typeof themesData === 'object') {
+              if (themesData.hasOwnProperty('active')) {
+                themesData.active = "SpaceTheme for Steam";
+              }
+            }
+            
+            fs.writeFileSync(themesJsonPath, JSON.stringify(themesData, null, 2));
+            sendLog('Updated themes.json with new active theme');
+          }
+          
+          const steamExePath = path.join(data.steamPath, 'steam.exe');
+          exec('tasklist', (error, stdout) => {
+            if (stdout.toLowerCase().includes('steam.exe')) {
+              exec('taskkill /F /IM steam.exe', (killError) => {
+                if (killError) {
+                  sendLog('Failed to close Steam');
+                  return;
+                }
+                sendLog('Closed Steam process');
+                
+                exec(`"${steamExePath}"`, (launchError) => {
+                  if (launchError) {
+                    sendLog('Failed to restart Steam');
+                    return;
+                  }
+                  sendLog('Restarted Steam');
+                });
+              });
+            } else {
+              sendLog('Steam not running, skipping process kill');
+            }
+          });
+      
+          sendLog('SpaceTheme installed successfully for Steam.');
+        } catch (error) {
+          sendLog(`Error updating themes or managing Steam: ${error.message}`);
+          try {
+            const fileContents = fs.readFileSync(themesJsonPath, 'utf8');
+            sendLog(`Themes JSON contents: ${fileContents}`);
+          } catch (readError) {
+            sendLog(`Could not read themes.json: ${readError.message}`);
+          }
+        }
       } else {
         throw new Error('Failed to extract theme files');
       }
